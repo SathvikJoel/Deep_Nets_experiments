@@ -6,7 +6,7 @@ The idea is to come up with a novel architecture based on attention.
 
 ## Papers
 
-[Stand-alone-self-attention]
+[Stand-alone-self-attention](https://arxiv.org/abs/1906.05909)
 
 [CBAM](https://arxiv.org/abs/1807.06521)
 
