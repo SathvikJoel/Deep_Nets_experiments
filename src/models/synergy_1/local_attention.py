@@ -7,7 +7,9 @@ from fastai import *
 from fastai.vision import *
 from fastai.metrics import error_rate, accuracy
 
-from lib.attention_mods import *
+import sys
+sys.path.insert(4,'src\lib') 
+from attention_mods import *
 
 import math
 

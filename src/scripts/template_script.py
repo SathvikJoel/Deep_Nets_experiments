@@ -2,7 +2,8 @@
 This is meant to be a template for all the test scripts
 '''
 import sys
-sys.path.insert(1, 'src\lib')         
+sys.path.insert(1, 'src\lib') 
+sys.path.insert(2,'src\models\synergy_1')        
 from argparse import ArgumentParser , SUPPRESS
 import os
 import re
@@ -13,7 +14,7 @@ from fastai.vision.all import *
 from fastai import *
 from csv import writer
 from test_lib import *
-
+from local_attention import *
 '''
 Function to parse the input
 '''
@@ -72,8 +73,8 @@ def setup():
     
 if __name__ == "__main__":
     #configure the device
-    device = torch.device('cuda',0)
-    torch.cuda.set_device(device)
+    # device = torch.device('cuda',0)
+    # torch.cuda.set_device(device)
 
     args , f_output, csv_output = setup()
 
