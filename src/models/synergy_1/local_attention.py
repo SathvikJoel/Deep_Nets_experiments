@@ -4,12 +4,11 @@ import torch.nn.functional as F
 import torch.nn.init as init
 
 from fastai import *
-from fastai.vision import *
+from fastai.vision.all import *
 from fastai.metrics import error_rate, accuracy
 
 import sys
-sys.path.insert(4,'src\lib') 
-from attention_mods import *
+from src.lib.attention_mods import *
 
 import math
 

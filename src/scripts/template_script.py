@@ -1,20 +1,18 @@
 '''
 This is meant to be a template for all the test scripts
 '''
+from csv import writer
 import sys
-sys.path.insert(1, 'src\lib') 
-sys.path.insert(2,'src\models\synergy_1')        
+sys.path.append(".")      
 from argparse import ArgumentParser , SUPPRESS
 import os
 import re
 import time
-import pickle
 from  datetime import datetime
-from fastai.vision.all import *
 from fastai import *
-from csv import writer
-from test_lib import *
-from local_attention import *
+from fastai.vision.all import *
+from src.models.synergy_1.local_attention import *
+from src.lib.test_lib import *
 '''
 Function to parse the input
 '''
@@ -71,10 +69,12 @@ def setup():
 
     return args , f_output, csv_output
     
-if __name__ == "__main__":
+if (__name__ == "__main__"):
+   
     #configure the device
-    # device = torch.device('cuda',0)
-    # torch.cuda.set_device(device)
+
+    device = torch.device('cuda',0)
+    torch.cuda.set_device(device)
 
     args , f_output, csv_output = setup()
 
@@ -105,11 +105,8 @@ if __name__ == "__main__":
     write_stats(args, f_output, log , training_time, exe_time)
     
     f_output.close()
- 
     
     
-
-
 
 
 
