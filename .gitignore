@@ -1,4 +1,4 @@
-zunn/
+
 .vscode
 .pylintrc
 lib/__pycache__
@@ -142,4 +142,6 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 src/lib/__pycache__/test_lib.cpython-37.pyc
-src/lib/__pycache__/test_lib.cpython-37.pyc
+src/lib/__pycache__/attention_mods.cpython-37.pyc
+.vscode/settings.json
+dl-project.cer

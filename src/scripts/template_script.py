@@ -14,6 +14,7 @@
 *
 * 
 '''
+
 #Imports
 #############################################################################
 import sys
@@ -33,6 +34,7 @@ from src.lib.test_lib import *
 from src.models.synergy_1.local_attention import *
 import pathlib
 ##################################################################################
+
 
 
 
@@ -97,7 +99,9 @@ def setup():
 
     return args , f_output, csv_output
     
+
 if __name__ == "__main__":
+
 
     """configure the device"""
     device = torch.device('cuda',0)
@@ -148,11 +152,8 @@ if __name__ == "__main__":
     write_stats(args, f_output, log , training_time, exe_time)
     
     f_output.close()
- 
     
     
-
-
 
 
 

@@ -4,7 +4,7 @@ import torch.nn.functional as F
 import torch.nn.init as init
 
 from fastai import *
-from fastai.vision import *
+from fastai.vision.all import *
 from fastai.metrics import error_rate, accuracy
 
 import sys
