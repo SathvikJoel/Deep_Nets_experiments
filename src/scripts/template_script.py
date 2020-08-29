@@ -1,22 +1,50 @@
 '''
-This is meant to be a template for all the test scripts
+* $Id
+* File name :       template_script.py
+*
+* Purpose :     Allows for easy experimentation by running Models and archiving the results
+*
+* Author :  Sathvik Joel K 
+*
+* Created :     29-Aug-2020
+*
+* Bugs:
+*
+* Change Log:
+*
+* 
 '''
-from csv import writer
+
+#Imports
+#############################################################################
 import sys
-sys.path.append(".")      
-from argparse import ArgumentParser , SUPPRESS
 import os
+import pathlib
+sys.path.insert(1, '.')         
+from argparse import ArgumentParser ,SUPPRESS
 import re
 import time
+import pickle
+import torch
 from  datetime import datetime
 from fastai import *
 from fastai.vision.all import *
-from src.models.synergy_1.local_attention import *
+from csv import writer
 from src.lib.test_lib import *
-'''
-Function to parse the input
-'''
+from src.models.synergy_1.local_attention import *
+import pathlib
+##################################################################################
+
+
+
+
 def parse_input():
+    '''
+    * Parses the input and sets the hyper parameter 
+    *
+    * Bugs :
+    *
+    '''
     
     parser = ArgumentParser(add_help=False)
     required = parser.add_argument_group('required arguments')
@@ -44,64 +72,83 @@ def parse_input():
     return args
 
 
-'''
-Creates required directories and files
-'''
 def setup():
+    """
+    * Created requrired folders 
+    *
+    * Returns arguments , text_file_object , csv_file_path
+    *
+    * Bugs :
+    """
     args = parse_input()
     path = os.getcwd()      
     #path to lab_xx folder
-    out_path = os.path.join(path , 'results', 'coretex_'+ str(args.cortex), 'lab_' + str(args.experiment))
+    out_path = os.path.join(path , 'results', 'cortex_'+ str(args.cortex), 'lab_' + str(args.laboratory))
 
-    filepath= os.join(out_path, args.dataset, args.model_name, os.path.sep)
+    filepath= os.path.join(out_path, args.dataset, args.model_name)
 
     #create folder corresponding to modle_name and dataset
-    if not os.path.exists(filepath):
+    if (not os.path.exists(filepath)) :
         print(f"Generating folder {filepath}")
         os.makedirs(filepath)
     
     #output file for storing summary
-    f_output = open(filepath +args.dataset + os.path.sep + args.model_name + os.path.sep  + 'abstract' + '.txt', 'a+')
-    csv_output = filepath + args.dataset + os.path.sep + args.model_name + os.path.sep  + 'sheet' + '.csv'
-
+    f_output = open(filepath+ os.path.sep +args.dataset + '_' + args.model_name + '_'+ 'abstract' + '.txt', 'a+')
+    csv_output = filepath + args.dataset + '_ '+ args.model_name + '_ '+ 'sheet' + '.csv'
     print_args(args, f_output, csv_output)
-
 
     return args , f_output, csv_output
     
-if (__name__ == "__main__"):
-   
-    #configure the device
 
+if __name__ == "__main__":
+
+
+    """configure the device"""
     device = torch.device('cuda',0)
     torch.cuda.set_device(device)
 
+    """Setup the files and directories"""
     args , f_output, csv_output = setup()
 
     m = globals()[args.model_name]
 
-    data_path = os.path.join(os.getcwd , 'src' + 'data' + args.dataset)
-    dls = ImageDataLoaders.from_folder(data_path, valid='val',item_tfms=RandomResizedCrop(128, min_scale=0.35), 
+    """
+    Download the data if required 
+    Create Dataloaders using fastai metnods
+    """
+    #data_path = os.path.join(os.getcwd , 'src' + 'data' + args.dataset)
+    path = untar_data(URLs.IMAGENETTE_160)
+    dls = ImageDataLoaders.from_folder(path, valid='val',bs = 10,item_tfms=RandomResizedCrop(128, min_scale=0.35), 
     batch_tfms=Normalize())
     
+    """Logging Variables"""
     start_time = time.time()
     log = []
     training_time = []
 
+    """Running Loop"""
     for run in range(args.repetitions):
         model = m()
+        model.to(device)
         learn = Learner(dls, model,  loss_func= nn.CrossEntropyLoss() , metrics= accuracy,  cbs = CSVLogger(csv_output,append = True))
+        """For the first run create experiment specific identifiers in CSV"""
         if run == 0 :
             write_new_line(csv_output, args)
 
+        """The fit loop for a single run"""
         learn.fit_one_cycle(args.num_epochs, max_lr =args.learning_rate)
+        
+        """For the first run create experiment specific identifiers in TXT"""
         if run == 0 : print('      |           '.join((learn.recorder.metric_names).map(to_string)) , file = f_output)
+        
+        """enter avg stats for this run"""
         log.append(list(to_int(learn.recorder.log)))
         print('      |        '.join((learn.recorder.log).map(to_string)), file = f_output )
         training_time.append(time.time() - start_time)        
     
     exe_time = time.time() - start_time
     
+    """Write stats to file"""
     write_stats(args, f_output, log , training_time, exe_time)
     
     f_output.close()
