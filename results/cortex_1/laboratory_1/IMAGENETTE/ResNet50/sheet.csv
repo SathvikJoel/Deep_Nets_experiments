@@ -1,0 +1,43 @@
+
+NEW_EXP,2020-08-29 09:29:27
+dataset,model_name,num_epochs,learning_rate,cortex,laboratory,size,repetitions,batch_size
+NEW_EXP,2020-08-29 09:30:04
+dataset,model_name,num_epochs,learning_rate,cortex,laboratory,size,repetitions,batch_size
+IMAGENETTE,ResNet50,20,0.08,1,1,128,3,128
+epoch,train_loss,valid_loss,accuracy,time
+0,0.0,00:01
+NEW_EXP,2020-08-29 09:30:38
+dataset,model_name,num_epochs,learning_rate,cortex,laboratory,size,repetitions,batch_size
+IMAGENETTE,ResNet50,20,0.08,1,1,128,3,64
+epoch,train_loss,valid_loss,accuracy,time
+0,0.0,00:01
+NEW_EXP,2020-08-29 09:30:59
+dataset,model_name,num_epochs,learning_rate,cortex,laboratory,size,repetitions,batch_size
+IMAGENETTE,ResNet50,20,0.08,1,1,128,3,40
+epoch,train_loss,valid_loss,accuracy,time
+0,0.0,00:01
+NEW_EXP,2020-08-29 09:31:19
+dataset,model_name,num_epochs,learning_rate,cortex,laboratory,size,repetitions,batch_size
+IMAGENETTE,ResNet50,20,0.08,1,1,128,3,20
+epoch,train_loss,valid_loss,accuracy,time
+0,0.0,00:01
+NEW_EXP,2020-08-29 09:31:41
+dataset,model_name,num_epochs,learning_rate,cortex,laboratory,size,repetitions,batch_size
+IMAGENETTE,ResNet50,20,0.08,1,1,128,3,10
+epoch,train_loss,valid_loss,accuracy,time
+0,0.0,00:01
+NEW_EXP,2020-08-29 09:33:02
+dataset,model_name,num_epochs,learning_rate,cortex,laboratory,size,repetitions,batch_size
+IMAGENETTE,ResNet50_custom,20,0.08,1,1,128,3,10
+epoch,train_loss,valid_loss,accuracy,time
+0,0.0,00:01
+NEW_EXP,2020-08-29 09:33:25
+dataset,model_name,num_epochs,learning_rate,cortex,laboratory,size,repetitions,batch_size
+IMAGENETTE,ResNet50_custom,20,0.08,1,1,128,3,5
+epoch,train_loss,valid_loss,accuracy,time
+0,0.0,00:01
+NEW_EXP,2020-08-29 09:33:52
+dataset,model_name,num_epochs,learning_rate,cortex,laboratory,size,repetitions,batch_size
+IMAGENETTE,ResNet50_custom,20,0.08,1,1,128,3,1
+epoch,train_loss,valid_loss,accuracy,time
+0,0.0,00:01

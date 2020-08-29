@@ -2,19 +2,22 @@
 This is meant to be a template for all the test scripts
 '''
 import sys
-sys.path.insert(1, 'src\lib') 
+import os
+import pathlib
+sys.path.insert(1, '.') 
 sys.path.insert(2,'src\models\synergy_1')        
 from argparse import ArgumentParser , SUPPRESS
-import os
 import re
 import time
 import pickle
 from  datetime import datetime
-from fastai.vision.all import *
 from fastai import *
+from fastai.vision.all import *
+#from fastai import *
 from csv import writer
-from test_lib import *
-from local_attention import *
+from src.lib.test_lib import *
+from src.models.synergy_1.local_attention import *
+import pathlib
 '''
 Function to parse the input
 '''
@@ -53,19 +56,21 @@ def setup():
     args = parse_input()
     path = os.getcwd()      
     #path to lab_xx folder
-    out_path = os.path.join(path , 'results', 'coretex_'+ str(args.cortex), 'lab_' + str(args.experiment))
+    out_path = os.path.join(path , 'results', 'coretex_'+ str(args.cortex), 'lab_' + str(args.laboratory))
 
-    filepath= os.join(out_path, args.dataset, args.model_name, os.path.sep)
+    filepath= os.path.join(out_path, args.dataset, args.model_name, os.path.sep)
 
     #create folder corresponding to modle_name and dataset
-    if not os.path.exists(filepath):
+    if (not os.path.exists(filepath)) :
         print(f"Generating folder {filepath}")
         os.makedirs(filepath)
     
     #output file for storing summary
-    f_output = open(filepath +args.dataset + os.path.sep + args.model_name + os.path.sep  + 'abstract' + '.txt', 'a+')
-    csv_output = filepath + args.dataset + os.path.sep + args.model_name + os.path.sep  + 'sheet' + '.csv'
-
+    f_output = open('/home/ubuntu/deep_nets/Deep_Nets_experiments/results/cortex_1/laboratory_1/IMAGENETTE/ResNet50/abstarct.txt', 'a+')
+    #f_output = open(filepath +args.dataset + os.path.sep + args.model_name + os.path.sep  + 'abstract' + '.txt', 'w+')
+    #f_output = open(filepath + os.path.sep  + 'abstract' + '.txt', 'w+')
+    #csv_output = filepath + args.dataset + os.path.sep + args.model_name + os.path.sep  + 'sheet' + '.csv'
+    csv_output = '/home/ubuntu/deep_nets/Deep_Nets_experiments/results/cortex_1/laboratory_1/IMAGENETTE/ResNet50/sheet.csv'
     print_args(args, f_output, csv_output)
 
 
@@ -73,15 +78,16 @@ def setup():
     
 if __name__ == "__main__":
     #configure the device
-    # device = torch.device('cuda',0)
-    # torch.cuda.set_device(device)
+    device = torch.device('cuda',0)
+    torch.cuda.set_device(device)
 
     args , f_output, csv_output = setup()
 
     m = globals()[args.model_name]
 
-    data_path = os.path.join(os.getcwd , 'src' + 'data' + args.dataset)
-    dls = ImageDataLoaders.from_folder(data_path, valid='val',item_tfms=RandomResizedCrop(128, min_scale=0.35), 
+    #data_path = os.path.join(os.getcwd , 'src' + 'data' + args.dataset)
+    path = untar_data(URLs.IMAGENETTE_160)
+    dls = ImageDataLoaders.from_folder(path, valid='val',item_tfms=RandomResizedCrop(128, min_scale=0.35), 
     batch_tfms=Normalize())
     
     start_time = time.time()

@@ -8,7 +8,7 @@ def print_args(args, f_output , csv_output):
     keys = args_dict.keys()
 
     #print date and time
-    now = datetime.datetime.now()
+    now = datetime.now()
     print (now.strftime("%Y-%m-%d %H:%M:%S"), file = f_output)
     print("****************************************", file=f_output)
     print("****************************************", file=f_output)
@@ -54,11 +54,11 @@ def write_stats(args, f_output, log , training_time, exe_time):
 If run == 0 , then it adds a new line to the csv output to mark the start
 '''
 def write_new_line(csv_output, args):
-    now = datetime.datetime.now()
+    now = datetime.now()
     sheet = Path(csv_output).open('a+')
     sheet.write(','.join(['NEW_EXP', now.strftime("%Y-%m-%d %H:%M:%S")]) + '\n')
-    sheet.write(','.join(args.keys()) + '\n')
-    sheet.write(','.join([str(t) for t in args.values()]) + '\n')
+    sheet.write(','.join(args.__dict__.keys()) + '\n')
+    sheet.write(','.join([str(t) for t in args.__dict__.values()]) + '\n')
 
 #Returns str 
 def to_string(a): return str(a)

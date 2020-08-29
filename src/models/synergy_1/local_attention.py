@@ -8,8 +8,7 @@ from fastai.vision import *
 from fastai.metrics import error_rate, accuracy
 
 import sys
-sys.path.insert(4,'src\lib') 
-from attention_mods import *
+from src.lib.attention_mods import *
 
 import math
 
@@ -125,7 +124,7 @@ def ResNet38(num_classes=10, stem=False):
     return Model(Bottleneck, [2, 3, 5, 2], num_classes=num_classes, stem=stem)
 
 
-def ResNet50(num_classes=10, stem=False):
+def ResNet50_custom(num_classes=10, stem=False):
     return Model(Bottleneck, [3, 4, 6, 3], num_classes=num_classes, stem=stem)
 
 
