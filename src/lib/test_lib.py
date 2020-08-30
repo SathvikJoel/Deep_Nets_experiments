@@ -30,7 +30,7 @@ def to_int(logList):
 def mean_std(log,training_time):
     log = torch.Tensor(log)
     log_mean, log_std = torch.mean(log , dim = 0), torch.std(log, dim = 0)
-    training_time = torch.tenosr(training_time)
+    training_time = torch.tensor(training_time)
     mean_training_time = torch.mean(training_time)
     std_training_time = torch.std(training_time) 
     return log_mean , log_std , mean_training_time , std_training_time
