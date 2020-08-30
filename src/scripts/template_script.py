@@ -94,7 +94,7 @@ def setup():
     
     #output file for storing summary
     f_output = open(filepath+ os.path.sep +args.dataset + '_' + args.model_name + '_'+ 'abstract' + '.txt', 'a+')
-    csv_output = filepath + args.dataset + '_ '+ args.model_name + '_ '+ 'sheet' + '.csv'
+    csv_output = filepath + os.path.sep +args.dataset + '_'+ args.model_name + '_'+ 'sheet' + '.csv'
     print_args(args, f_output, csv_output)
 
     return args , f_output, csv_output
