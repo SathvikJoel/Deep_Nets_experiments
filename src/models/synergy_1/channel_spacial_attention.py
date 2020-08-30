@@ -22,7 +22,7 @@ from fastai.metrics import error_rate, accuracy
 
 import sys
 from src.lib.attention_mods import *
-from src.local_attetion import Model
+from src.local_attention import Model
 
 
 """
