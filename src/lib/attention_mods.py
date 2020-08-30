@@ -128,6 +128,54 @@ class AttentionStem(nn.Module):
 
         return out
 
+
+class Flatten(nn.Module):
+    """ Flattens the input """
+    def forward(self,x):
+        return x.view(x.size(0), -1)
+
+
+"""
+* Author : Sathvik Joel K
+* Created on : 30-aug-2020
+* Source : CBAM paper
+* Purpose : Used for combining local_attention with channel attetnion
+* Used in : channel_spacial_attention.py 
+* Bugs : --
+* priimary_test : --passed
+"""
+class cam(nn.Module):
+    """Channel Attention module of CBAM"""
+    def __init__(self, channels , reduction_ratio = 16, pool_type = ['avg','max']):
+        super(cam,self).__init__()
+        self.channels = channels
+        self.mlp = nn.Sequential(
+            Flatten(),
+            nn.Linear(channels, channels//reduction_ratio),
+            nn.ReLU(),
+            nn.Linear(channels//reduction_ratio, channels)
+        )
+        self.pool_types = pool_type
+
+    def forward(self,x):
+        channel_att_sum = None
+        for pool in self.pool_types:
+            if pool == 'avg':
+                avg_pool = F.adaptive_avg_pool2d(x, (1,1))
+                channel_att_raw = self.mlp(avg_pool)
+            if pool == 'max':
+                max_pool = F.adaptive_max_pool2d(x , (1,1))
+                channel_att_raw = self.mlp(max_pool)
+            
+            if channel_att_sum == None:
+                channel_att_sum = channel_att_raw
+            else:
+                channel_att_sum = channel_att_sum + channel_att_raw
+            
+        scale = torch.sigmoid(channel_att_sum).unsqueeze(2).unsqueeze(3).expand_as(x)
+        return x*scale
+
+
     def reset_parameters(self):
         init.kaiming_normal_(self.key_conv.weight, mode='fan_out', nonlinearity='relu')
         init.kaiming_normal_(self.query_conv.weight, mode='fan_out', nonlinearity='relu')

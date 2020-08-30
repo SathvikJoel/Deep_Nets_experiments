@@ -31,7 +31,7 @@ from fastai import *
 from fastai.vision.all import *
 from csv import writer
 from src.lib.test_lib import *
-from src.models.synergy_1.local_attention import *
+from src.models.synergy_1.channel_spacial_attention import *
 import pathlib
 ##################################################################################
 
@@ -118,7 +118,7 @@ if __name__ == "__main__":
     """
     #data_path = os.path.join(os.getcwd , 'src' + 'data' + args.dataset)
     path = untar_data(URLs.IMAGENETTE_160)
-    dls = ImageDataLoaders.from_folder(path, valid='val',bs = 10,item_tfms=RandomResizedCrop(128, min_scale=0.35), 
+    dls = ImageDataLoaders.from_folder(path, valid='val',bs = args.batch_size,item_tfms=RandomResizedCrop(128, min_scale=0.35), 
     batch_tfms=Normalize())
     
     """Logging Variables"""
