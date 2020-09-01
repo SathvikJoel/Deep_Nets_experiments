@@ -8,9 +8,9 @@
 *
 * Created :     29-Aug-2020
 *
-* Bugs:
+* Bugs: --
 *
-* Change Log:
+* Change Log: Added an argument for Blur pooling -bl
 *
 * 
 '''
@@ -30,9 +30,11 @@ from  datetime import datetime
 from fastai import *
 from fastai.vision.all import *
 from csv import writer
+import kornia
 from src.lib.test_lib import *
 from src.models.synergy_1.channel_spacial_attention import *
-import pathlib
+from src.lib.test_lib import convert_MP_to_blurMP
+from fastai.vision.data import ImageDataLoaders
 ##################################################################################
 
 
@@ -67,6 +69,7 @@ def parse_input():
     optional.add_argument('-s', '--size', type = int , metavar = 'STRING', default = 128 , help = 'Size of image(default:128')
     optional.add_argument('-r', '--repetitions', type=int, metavar='NUMBER', default=1, help='number of repetitions')
     required.add_argument('-b', '--batch_size', type=int, default=128, metavar='NUMBER', help='batch size(default:128)')
+    optional.add_argument('-bl','--blur_pool', type=bool, default = False,metavar='BOOL',help='replace max_pool with blur pool')
     args = parser.parse_args()
 
     return args
@@ -117,7 +120,10 @@ if __name__ == "__main__":
     Create Dataloaders using fastai metnods
     """
     #data_path = os.path.join(os.getcwd , 'src' + 'data' + args.dataset)
-    path = untar_data(URLs.IMAGENETTE_160)
+    if (args.dataset == 'IMAGENETTE'):
+        path = untar_data(URLs.IMAGENETTE_160)
+    if (args.dataset == 'IMAGEWOOF'):
+        path = untar_data(URLs.IMAGEWOOF_160)
     dls = ImageDataLoaders.from_folder(path, valid='val',bs = args.batch_size,item_tfms=RandomResizedCrop(128, min_scale=0.35), 
     batch_tfms=Normalize())
     
@@ -129,7 +135,9 @@ if __name__ == "__main__":
     """Running Loop"""
     for run in range(args.repetitions):
         model = m()
-        model.to(device)
+        if(args.blur_pool):
+            convert_MP_to_blurMP(model, nn.MaxPool2d)
+        
         learn = Learner(dls, model,  loss_func= nn.CrossEntropyLoss() , metrics= accuracy,  cbs = CSVLogger(csv_output,append = True))
         """For the first run create experiment specific identifiers in CSV"""
         if run == 0 :
@@ -152,6 +160,7 @@ if __name__ == "__main__":
     write_stats(args, f_output, log , training_time, exe_time)
     
     f_output.close()
+    
     
     
 
