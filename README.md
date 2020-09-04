@@ -18,7 +18,15 @@ The idea is to come up with a novel architecture based on attention.
 
 ## Updates
 
+Baseline local attention ~74.3%
+
+attetnion + channel attention ~75.8%
+
 ## Todo
+
+Experiment with Topdown networks
+
+Experiment with blur pool
 
 ## File Structure
 
