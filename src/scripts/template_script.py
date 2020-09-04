@@ -33,7 +33,7 @@ from csv import writer
 import kornia
 from src.lib.test_lib import *
 from src.models.synergy_1.channel_spacial_attention import *
-from src.lib.test_lib import convert_MP_to_blurMP
+from src.lib.blur_pool import convert_MP_to_blurMP
 from fastai.vision.data import ImageDataLoaders
 ##################################################################################
 
