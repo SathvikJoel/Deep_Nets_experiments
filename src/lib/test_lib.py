@@ -39,7 +39,7 @@ def write_stats(args, f_output, log , training_time, exe_time):
     log_mean , log_std , mean_training_time , std_training_time = mean_std(log,training_time)
     # Writing statistics to file
     print("******************STATS**********************", file=f_output)
-    print("Model: ", args.model, file=f_output)
+    print("Model: ", args.model_name, file=f_output)
     print(f"epochs: {log_mean[0]}", file = f_output)
     print(f"Mean train loss: {log_mean[1]} +- {log_std[1]}", file=f_output)
     print(f"Mean valid loss: {log_mean[2]} +- {log_std[2]}", file=f_output)

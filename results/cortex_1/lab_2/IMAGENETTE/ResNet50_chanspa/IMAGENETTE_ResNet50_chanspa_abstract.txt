@@ -25,3 +25,29 @@ Further Experimentation is required to support the statement that the CAM is inc
 *****************NOTES***********************
 epoch      |           train_loss      |           valid_loss      |           accuracy      |           time
 19      |        0.7429739832878113      |        0.886512815952301      |        0.7589808702468872      |        9.45
+2020-09-04 10:22:10
+****************************************
+****************************************
+dataset: IMAGENETTE
+model_name: ResNet50_chanspa
+num_epochs: 20
+learning_rate: 0.001
+cortex: 1
+laboratory: 2
+size: 128
+repetitions: 1
+batch_size: 20
+blur_pool: True
+****************************************
+****************************************
+
+
+
+*****************NOTES***********************
+
+
+
+*****************NOTES***********************
+epoch      |           train_loss      |           valid_loss      |           accuracy      |           time
+19      |        0.6802220940589905      |        116.77061462402344      |        0.7633121013641357      |        9.59
+******************STATS**********************
